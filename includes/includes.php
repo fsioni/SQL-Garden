@@ -1,0 +1,2 @@
+<?php
+$siteName = 'SQL Garden';
