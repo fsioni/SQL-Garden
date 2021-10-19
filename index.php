@@ -8,6 +8,19 @@ require_once 'statics/header.php';
 require_once 'statics/nav.php';
 ?>
 
-<h1>Hello, world</h1>
+<div style=" padding: 2%" id="content">
+    <h1>Hello, world</h1>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+
+</div>
 
 <?php require_once 'statics/footer.php' ?>
