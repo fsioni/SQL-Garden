@@ -22,8 +22,19 @@ $connexion = getConnexionDB(); // connexion à la BD
     <title><?php echo $siteName . ' - ' . $title; ?></title>
 </head>
 
-<body>
+<body class="bg-light">
 
+    <!-- Page Wrapper -->
     <header>
+        <div style="background: url(data/img/header.jpeg)" class="jumbotron text-white">
+            <div class="container py-5 text-center">
+                <a href="index.php">
+                    <img class="img-fluid" src="https://via.placeholder.com/350x150" alt="Logo <?php echo $siteName ?>">
+                </a>
+                <p class="font-italic mb-0" style="margin: 2%;">
+                    <?php echo $siteDesc ?>
+                </p>
+            </div>
+        </div>
 
     </header>
