@@ -1,4 +1,4 @@
-<footer class="text-center text-lg-start bg-light text-muted">
+<footer class="text-center text-lg-start text-muted" style="background-color: #efefef;">
 
     <section class="">
         <div class="container text-center text-md-start mt-5">
@@ -12,7 +12,7 @@
                     </p>
                 </div>
 
-                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4" style="margin-top: 2%;">
                     <h6 class="text-uppercase fw-bold mb-4">
                         Scolarité
                     </h6>
@@ -24,8 +24,8 @@
                     </p>
                 </div>
 
-                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
-                    <h6 class="text-uppercase fw-bold mb-4">
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4" style="margin-top: 2%;">
+                    <h6 class=" text-uppercase fw-bold mb-4">
                         Remerciements
                     </h6>
                     <p>
@@ -40,8 +40,8 @@
                 </div>
 
 
-                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
-                    <h6 class="text-uppercase fw-bold mb-4">
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4" style="margin-top: 2%;">
+                    <h6 class=" text-uppercase fw-bold mb-4">
                         Contacts
                     </h6>
                     <p><i class="me-3"></i>SIONI Farès - p1907037</p>
@@ -55,6 +55,6 @@
 
 </body>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 </html>
