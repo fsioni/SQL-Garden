@@ -23,4 +23,5 @@ require_once 'statics/nav.php';
 
 </div>
 
+<?php require_once 'statics/stats.php' ?>
 <?php require_once 'statics/footer.php' ?>
