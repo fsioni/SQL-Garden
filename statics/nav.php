@@ -6,10 +6,10 @@
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Accueil</a>
+                <a class="nav-link" href="index.php">Accueil</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Ajouter une variété</a>
+                <a class="nav-link" href="index.php?page=ajouter-variete">Ajouter une variété</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Générer et afficher une parcelle</a>
