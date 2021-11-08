@@ -3,25 +3,26 @@
 // MOKADEM Aziz
 //scp -r bdw1-projet p1907037@bdw1.univ-lyon1.fr:/var/www/p1907037/
 
-$title = 'Accueil';
+$controller = 'controllerAccueil'; // contrôleur par défaut
+$view = 'viewAccueil'; // vue par défaut
+
+require_once('includes/routes.php');
+
+if (isset($_GET['page'])) {
+    $nomPage = $_GET['page'];
+    if (isset($routes[$nomPage])) {
+        $controller = $routes[$nomPage]['controller'];
+        $view = $routes[$nomPage]['view'];
+    }
+}
+include('controllers/' . $controller . '.php');
+
 require_once 'statics/header.php';
 require_once 'statics/nav.php';
-?>
 
-<div style=" padding: 2%" id="content">
-    <h1>Hello, world</h1>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+echo '<div id="contentContainer">';
+include('views/' . $view . '.php');
+echo '</div>';
 
-</div>
-
-<?php require_once 'statics/stats.php' ?>
-<?php require_once 'statics/footer.php' ?>
+require_once 'statics/stats.php';
+require_once 'statics/footer.php';
