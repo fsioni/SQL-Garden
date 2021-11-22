@@ -1,5 +1,5 @@
 <?php
 define('SERVER', 'localhost');
-define('USER', 'p1907037');
-define('PASSWORD', 'Effort2Splice');
-define('DB', 'p1907037');
+define('USER', 'p1804157');
+define('PASSWORD', 'Causal83Petite');
+define('DB', 'p1804157');
