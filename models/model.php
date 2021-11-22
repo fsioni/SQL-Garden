@@ -37,3 +37,20 @@ function getInstances($connexion, $nomTable)
     $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instances;
 }
+
+// retourne les instances d'une requête $requete
+function getFromRequest($connexion, $requete)
+{
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+// retourne la colonne $col des instances d'une table $table
+function selectDistinctColFromTable($connexion, $col, $table)
+{
+    $requete = "SELECT DISTINCT $col FROM $table ORDER BY $col ASC";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
