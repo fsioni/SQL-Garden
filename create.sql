@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS `Jardins` (
 );
 
 CREATE TABLE IF NOT EXISTS `Parcelles` (
-	`latitudeP` FLOAT ,
-	`longitudeP` FLOAT ,
+	`latitudeP` varchar(255) NOT NULL ,
+	`longitudeP` varchar(255) NOT NULL ,
 	`hauteur` INT ,
 	`idJ` INT ,
 	PRIMARY KEY (`latitudeP`,`longitudeP`)
@@ -19,18 +19,18 @@ CREATE TABLE IF NOT EXISTS `Récoltes` (
 	`quantité` INT ,
 	`commentaireRec` varchar(255) NOT NULL DEFAULT ("NONE"),
 	`dateRec` DATE ,
-	`latitudeP` FLOAT ,
-	`longitudeP` FLOAT ,
+	`latitudeP` varchar(255) NOT NULL ,
+	`longitudeP` varchar(255) NOT NULL ,
 	PRIMARY KEY (`idRec`)
 );
 
 CREATE TABLE IF NOT EXISTS `Rangs` (
 	`numéro` INT NOT NULL AUTO_INCREMENT,
-	`latitudeR` FLOAT ,
-	`longitudeR` FLOAT ,
+	`latitudeR` varchar(255) NOT NULL ,
+	`longitudeR` varchar(255) NOT NULL ,
 	`état` varchar(30) NOT NULL DEFAULT ("NONE"),
-	`latitudeP` FLOAT ,
-	`longitudeP` FLOAT ,
+	`latitudeP` varchar(255) NOT NULL ,
+	`longitudeP` varchar(255) NOT NULL ,
 	PRIMARY KEY (`numéro`)
 );
 
@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `Variétés` (
 	`idV` varchar(255) NOT NULL,
 	`annéeV` INT ,
 	`précocité` varchar(30) DEFAULT ("NONE"),
+	`labelPrécocité` varchar(30) DEFAULT ("NONE"),
 	`plantation` varchar(30) DEFAULT ("NONE"),
 	`entretien` varchar(30) DEFAULT ("NONE"),
 	`récolte` varchar(30) DEFAULT ("NONE"),
@@ -50,7 +51,6 @@ CREATE TABLE IF NOT EXISTS `Variétés` (
 	`périodePlantation` varchar(30) DEFAULT ("NONE"),
 	`périodeRécolte` varchar(30) DEFAULT ("NONE"),
 	`commentaireGen` varchar(255) DEFAULT ("NONE"),
-	`nomLatin` varchar(255) DEFAULT ("NONE"),
 	PRIMARY KEY (`idV`)
 );
 
@@ -98,15 +98,27 @@ CREATE TABLE IF NOT EXISTS  `FairePartieDe` (
 CREATE TABLE IF NOT EXISTS  `TypeJardin` (
 	`idTJ` INT NOT NULL AUTO_INCREMENT,
 	`nomType` varchar(30) NOT NULL,
-	`hauteurMax` INT,
-	`nomTS` varchar(30) NOT NULL DEFAULT ("NONE"),
 	PRIMARY KEY (`idTJ`)
+);
+
+CREATE TABLE IF NOT EXISTS  `Vergers` (
+	`idJ` INT,
+	`hauteurMax` INT
+);
+
+CREATE TABLE IF NOT EXISTS  `Ornements` (
+	`idJ` INT
+);
+
+CREATE TABLE IF NOT EXISTS  `Potagers` (
+	`idJ` INT,
+	`typeSol` varchar(255)
 );
 
 CREATE TABLE IF NOT EXISTS  `Couvrir` (
 	`numero` INT NOT NULL,
-	`latitudeP` FLOAT NOT NULL,
-	`longitudeP` FLOAT NOT NULL,
+	`latitudeP` varchar(255) NOT NULL,
+	`longitudeP` varchar(255) NOT NULL,
 	`nomPS` varchar(30) NOT NULL DEFAULT ("NONE"),
 	`dateDebut` DATE NOT NULL,
 	`dateFin` DATE NOT NULL,
@@ -132,8 +144,8 @@ CREATE TABLE IF NOT EXISTS  `Résoudre` (
 CREATE TABLE IF NOT EXISTS  `Occuper` (
 	`idV` varchar(255) NOT NULL,
 	`numero` INT(30) NOT NULL,
-	`latitudeP` FLOAT NOT NULL,
-	`longitudeP` FLOAT NOT NULL
+	`latitudeP` varchar(255) NOT NULL,
+	`longitudeP` varchar(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS  `Produire` (
@@ -148,7 +160,7 @@ CREATE TABLE IF NOT EXISTS  `EtreAdapté` (
 	`ratioAdaptation` FLOAT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS  `Dictionaire` (
+CREATE TABLE IF NOT EXISTS  `Dictionnaire` (
 	`codeVariété` varchar(255) NOT NULL,
 	`nomEspèce` varchar(255) NOT NULL,
 	`nomEspèceLatin` varchar(255) NOT NULL,
@@ -162,15 +174,13 @@ ALTER TABLE `Récoltes` ADD CONSTRAINT `Récoltes_fk0` FOREIGN KEY (`latitudeP`,
 
 ALTER TABLE `Rangs` ADD CONSTRAINT `Rangs_fk0` FOREIGN KEY (`latitudeP`,`longitudeP`) REFERENCES `Parcelles`(`latitudeP`,`longitudeP`);
 
-ALTER TABLE `Variétés` ADD CONSTRAINT `Variétés_fk0` FOREIGN KEY (`idV`) REFERENCES `Dictionaire`(`id`);
+ALTER TABLE `Variétés` ADD CONSTRAINT `Variétés_fk0` FOREIGN KEY (`idV`) REFERENCES `Dictionnaire`(`id`);
 
 ALTER TABLE `Description` ADD CONSTRAINT `Description_fk0` FOREIGN KEY (`idV`) REFERENCES `Variétés`(`idV`);
 
 ALTER TABLE `FairePartieDe` ADD CONSTRAINT `FairePartirDe_fk0` FOREIGN KEY (`idJ`) REFERENCES `Jardins`(`idJ`);
 
 ALTER TABLE `FairePartieDe` ADD CONSTRAINT `FairePartirDe_fk1` FOREIGN KEY (`idTJ`) REFERENCES `TypeJardin`(`idTJ`);
-
-ALTER TABLE `TypeJardin` ADD CONSTRAINT `TypeJardin_fk0` FOREIGN KEY (`nomTS`) REFERENCES `TypesSol`(`nomTS`);
 
 ALTER TABLE `Couvrir` ADD CONSTRAINT `Couvrir_fk0` FOREIGN KEY (`numero`) REFERENCES `Rangs`(`numéro`);
 
@@ -201,3 +211,11 @@ ALTER TABLE `Produire` ADD CONSTRAINT `Produire_fk1` FOREIGN KEY (`idV`) REFEREN
 ALTER TABLE `EtreAdapté` ADD CONSTRAINT `EtreAdapté_fk0` FOREIGN KEY (`idV`) REFERENCES `Variétés`(`idV`);
 
 ALTER TABLE `EtreAdapté` ADD CONSTRAINT `EtreAdapté_fk1` FOREIGN KEY (`nomTS`) REFERENCES `TypesSol`(`nomTS`);
+
+ALTER TABLE `Vergers` ADD CONSTRAINT `Vergers_fk0` FOREIGN KEY (`idJ`) REFERENCES `Jardins`(`idJ`);
+
+ALTER TABLE `Ornements` ADD CONSTRAINT `Ornements_fk0` FOREIGN KEY (`idJ`) REFERENCES `Jardins`(`idJ`);
+
+ALTER TABLE `Potagers` ADD CONSTRAINT `Potagers_fk0` FOREIGN KEY (`idJ`) REFERENCES `Jardins`(`idJ`);
+
+

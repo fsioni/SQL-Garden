@@ -75,19 +75,19 @@ function genRequest($table,$fields_fill,$fields_fetch){
 	if($i < count($fields_fill)-1)
 	   $query = $query.",";
     }
-    $query = $query.") VALUES ";
+    $query .=") VALUES ";
    while($row = $result->fetch_array(MYSQLI_BOTH)){
-    $query = $query."(";
+    $query .="(";
     for($i = 0; $i < count($fields_fetch); $i++){
 	if($row[$fields_fetch[$i]] === ""){
-	    $query = $query."DEFAULT";
+	    $query .= "DEFAULT";
 	}else{
-	    $query = $query."\"".$row[$fields_fetch[$i]]."\"";
+	    $query .="\"".$row[$fields_fetch[$i]]."\"";
 	}
 		if($i < count($fields_fetch)-1)
-	   $query = $query.",";
+		   $query .= ",";
     }
-    $query = $query."),";
+    $query .="),";
    }
     $query = substr($query,0,-1);
     // TODO fix this value so ^ that it wont mess up the final query !!
@@ -103,12 +103,15 @@ function executeRequest($query,$link){
     }
 }
 
-$link = mysqli_connect("localhost","p1804157","Causal83Petite","dataset");
 
+if(!$link = mysqli_connect("localhost","p1804157","Causal83Petite","dataset") ){
+	print("<h3> Cannot connect to the database, error :: ".$link->error);
+	exit(1);
+}
 // Dictionnary filling with fields 0,1,2 from result Set into 
 // $fields_fill table's fields
 
-$table = "Dictionaire";
+$table = "Dictionnaire";
 $fields_fill = array("id","codeVariété","nomEspèce","nomEspèceLatin");
 $fields_fetch = array(0,1,2);
 
@@ -134,8 +137,8 @@ $result->close();
 // $fields_fill table's fields
 
 $table = "Variétés";
-$fields_fill = array("idV","annéeV","précocité","commentaireGen","nomLatin");
-$fields_fetch = array(6,4,3,2);
+$fields_fill = array("idV","annéeV","précocité","labelPrécocité","commentaireGen");
+$fields_fetch = array(6,4,5,3);
 
 $result = $link->query("SELECT *  FROM DonneesFournies");
 print("<h3> Found  ".$result->num_rows." tuples corresponding to your query</h3>");
