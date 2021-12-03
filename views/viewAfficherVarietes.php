@@ -4,12 +4,12 @@
     <table class="table table-bordered" id="varietes-tab">
         <thead>
             <tr>
-                <th scope="col">Nom latin</th>
-                <th scope="col">Plante</th>
-                <th scope="col">Semencier</th>
-                <th scope="col">Argileux</th>
-                <th scope="col">Limoneux</th>
-                <th scope="col">Sableux</th>
+                <th scope="col">Nom Variété</th>
+                <th scope="col">Nom Plante (latin)</th>
+                <th scope="col">Semenciers</th>
+                <th scope="col">Adaptation aux Argileux</th>
+                <th scope="col">Adaptation aux Limoneux</th>
+                <th scope="col">Adaptation aux Sableux</th>
                 <th scope="col">Année</th>
                 <th scope="col">Précocité</th>
                 <th scope="col">Descriptions pour le semis</th>
@@ -25,8 +25,8 @@
         <tbody>
             <?php foreach ($varietes as $variete) { ?>
                 <tr>
-                    <th scope="row"><?php echo $variete['nomLatin'] ?></th>
-                    <td>TODO</td>
+                    <th><?php echo $variete['codeVariété'] ?></th>
+                    <th><?php echo $variete['nomEspèce'] . " (" . $variete['nomEspèceLatin'] . ")" ?></th>
                     <td>TODO</td>
                     <td>TODO</td>
                     <td>TODO</td>

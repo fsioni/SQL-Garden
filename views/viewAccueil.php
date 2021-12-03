@@ -1,11 +1,25 @@
-    <h1>Hello, world</h1>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
-    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis saepe consequatur ut et sapiente laudantium qui ipsum obcaecati beatae accusamus explicabo iusto perspiciatis similique, atque id deleniti! Aperiam, vero consequuntur.</p>
+    <h1 class="display-5">L'outil de gestion de jardin n°1</h1>
+
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4 img-thumbnail" src="data/img/indexImg1.jpg" alt="Photo d'un champ de blé" width="426" height="320">
+        <h1 class="display-5 fw-bold">La gestion de vos variétés</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Ajoutez et affichez toutes les variétés de plantes. Celles-ci peuvent ensuite être utilisée des vos parcelles de jardins afin de les peupler.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" onclick="location.href='index.php?page=afficher-varietes'" class="btn btn-primary btn-lg px-4 gap-3">Afficher les variétés</button>
+                <button type="button" onclick="location.href='index.php?page=ajouter-variete'" class="btn btn-outline-secondary btn-lg px-4">Ajouter une variété</button>
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4 img-thumbnail" src="data/img/indexImg2.jpg" alt="Photo d'une parcelle de champ" width="426" height="320">
+        <h1 class="display-5 fw-bold">Créez les parcelles de vos rêves</h1>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Avec les paramètres de vos choix, générez aléatoirement des parcelles, composée des variétés et des plantes sauvages de la base de données.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <button type="button" onclick="location.href='index.php?page=generer-parcelle'" class="btn btn-primary btn-lg px-4 gap-3">Générer et afficher une parcelle</button>
+            </div>
+        </div>
+    </div>

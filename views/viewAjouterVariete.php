@@ -46,8 +46,18 @@
         <br>
 
         <div class="form-group">
+            <label for="version">Type de plantation</label>
+
+            <select class="form-select" name="version" class="form-control" required>
+                <option value="Biologique">Biologique</option>
+                <option value="Conventionnelle">Conventionnelle</option>
+            </select>
+        </div>
+        <br>
+
+        <div class="form-group">
             <label for="descriptions">Descriptions pour le semis</label> <br>
-            <input type="text" name="descriptions" class="form-control" placeholder="Couper les feuilles" value="Couper les feuilles">
+            <input type="text" name="descriptions" class="form-control" placeholder="Couper les feuilles" value="Couper les feuilles; Ramasser délicatement">
             <small class="form-text text-muted">Séparez les descriptions par des points virgules.</small>
         </div>
         <br>
@@ -80,9 +90,9 @@
         <div class="form-group">
             <label for="precocite">Code précocité</label>
 
-            <select name="precocite" class="form-select" name="plantes" class="form-select" required>
+            <select name="precocite" class="form-select" class="form-select" required>
                 <?php foreach ($codesPreco as $codePreco) { ?>
-                    <option value="<?php echo $codePreco['précocité'] ?>"><?php echo $codePreco['précocité'] ?></option>
+                    <option value="<?php echo $codePreco['précocité'] ?>"><?php echo $codePreco['précocité'] . " / " . $codePreco['labelPrécocité'] ?></option>
                 <?php } ?>
             </select>
         </div>

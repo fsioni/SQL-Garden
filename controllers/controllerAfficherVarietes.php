@@ -1,4 +1,4 @@
 <?php
 $title = 'Afficher les variétés';
 
-$varietes = getInstances($connexion, "Variétés");
+$varietes = getVarietesEtPlantes($connexion, "Variétés");

@@ -48,12 +48,15 @@ include('controllers/' . $controller . '.php');
     <!-- Page Wrapper -->
     <header>
         <div style="background: url(data/img/header.jpeg)" class="jumbotron text-white">
+
             <div class="container py-5 text-center">
                 <a href="index.php">
-                    <img class="img-fluid" src="data/img/banner.jpeg" alt="Logo <?php echo $siteName ?>">
+                    <img style="border-radius: 100px; height: 150px;" class="img-fluid" src="data/img/banner.png" alt="Logo <?php echo $siteName ?>">
                 </a>
                 <p class="font-italic mb-0" style="margin: 2%;">
+                <div style="border-radius: 100px;margin-left: auto; margin-right: auto; width: 50%;" class="alert alert-dark" role="alert">
                     <?php echo $siteDesc ?>
+                </div>
                 </p>
             </div>
         </div>

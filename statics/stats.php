@@ -1,6 +1,6 @@
 <div class="p-5 mb-4 gray-200 border rounded-3">
     <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Statistiques</h1>
+        <h1 class="display-5 fw-bold">Statistiques de la base de données</h1>
         <div class="row">
             <div class="col-sm-6 mt-1">
                 <div class="card">

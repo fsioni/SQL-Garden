@@ -5,13 +5,14 @@ $title = 'Ajouter une variété';
 $sols = getInstances($connexion, "TypesSol");
 $plantes = selectDistinctColFromTable($connexion, "nomP", "Plantes");
 $semenciers = selectDistinctColFromTable($connexion, "nomSem", "Semenciers");
-$codesPreco = selectDistinctColFromTable($connexion, "précocité", "Variétés");
+$codesPreco = selectDistinctColsFromTable($connexion, "précocité", "labelPrécocité", "Variétés");
 
 if (isset($_POST['boutonValider'])) { // formulaire soumis
 
     $nomVariete = mysqli_real_escape_string($connexion, $_POST['nomVariete']); // recuperation de la valeur saisie
     $plante = mysqli_real_escape_string($connexion, $_POST['plante']);
     $semencier = mysqli_real_escape_string($connexion, $_POST['semencier']);
+    $version = mysqli_real_escape_string($connexion, $_POST['version']);
     //TODO : gérer les ';' pour les descriptions
     $descriptions = mysqli_real_escape_string($connexion, $_POST['descriptions']);
     $commentaire = mysqli_real_escape_string($connexion, $_POST['commentaire']);
@@ -34,7 +35,7 @@ if (isset($_POST['boutonValider'])) { // formulaire soumis
     $verification = getVarietesByName($connexion, $nomVariete);
 
     if ($verification == FALSE || count($verification) == 0) { // pas de variété avec ce nom, insertion
-        //$insertion = insertVariete($connexion, $nomVariete, $plante, $semencier, $descriptions, $commentaire, $annee, $adaptArgileux, $adaptLimoneux, $adaptSableux, $precocite, $plantation, $entretien, $recolte, $joursLevee, $perPlant, $perRec);
+        //$insertion = insertVariete($connexion, $nomVariete, $plante, $semencier, $version, $descriptions, $commentaire, $annee, $adaptArgileux, $adaptLimoneux, $adaptSableux, $precocite, $plantation, $entretien, $recolte, $joursLevee, $perPlant, $perRec);
         if (/*$insertion == */TRUE) {
             $successMessage = "La variété $nomVariete a bien été ajoutée !";
         } else {
