@@ -1,26 +1,26 @@
 <div class="p-5 mb-4 gray-200 border rounded-3">
     <div class="container-fluid py-5">
-        <h1 class="display-5 fw-bold">Statistiques</h1>
+        <h1 class="display-5 fw-bold">Statistiques de la base de données</h1>
         <div class="row">
             <div class="col-sm-6 mt-1">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Nombres d'instances par tables (top 5)</h5>
+                        <h5 class="card-title">Nombres d'instances par tables des plus importantes</h5>
                         <ul>
                             <li>
-                                <p class="card-text">Variétés : 3874</p>
+                                <p class="card-text">Plantes : <?php echo countInstances($connexion, "Plantes") ?></p>
                             </li>
                             <li>
-                                <p class="card-text">Rangs : 2039</p>
+                                <p class="card-text">Variétés : <?php echo countInstances($connexion, "Variétés") ?></p>
                             </li>
                             <li>
-                                <p class="card-text">Parcelles : 465</p>
+                                <p class="card-text">Plantes Sauvages : <?php echo countInstances($connexion, "PlantesSauvages") ?></p>
                             </li>
                             <li>
-                                <p class="card-text">Plantes : 237</p>
+                                <p class="card-text">Rangs : <?php echo countInstances($connexion, "Rangs") ?></p>
                             </li>
                             <li>
-                                <p class="card-text">Jardins : 154</p>
+                                <p class="card-text">Parcelles : <?php echo countInstances($connexion, "Parcelles") ?></p>
                             </li>
                         </ul>
                     </div>
