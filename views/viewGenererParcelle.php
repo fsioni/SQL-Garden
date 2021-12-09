@@ -81,9 +81,6 @@
                                 echo "<p class=\"text-danger\">" . ucfirst($contenu[0]["nomPS"]) . "</p>";
                             } else {
                                 foreach ($contenu as $var) {
-                                    //echo $var['Type'];
-                                    //var_dump($var["Plante"][0]["id"]);
-                                    //echo $var["Plante"][0]["id"];
                                     $temp = getNomVariete($connexion, $var["Plante"][0]["id"]);
                                     echo "<p class=\"text-success\">" . $temp[0]["codeVariété"] . " (" . $temp[0]["nomEspèce"] .
                                         ") / " . $var['Type'] . "</p>";

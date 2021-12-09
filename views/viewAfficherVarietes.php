@@ -1,8 +1,8 @@
 <h1>Les variétés :</h1>
 
 <div class="table-responsive">
-    <table class="table table-bordered" id="varietes-tab">
-        <thead>
+    <table class="table table-bordered table-striped" id="varietes-tab">
+        <thead class="thead-dark">
             <tr>
                 <th scope="col">Nom Variété</th>
                 <th scope="col">Nom Plante (latin)</th>

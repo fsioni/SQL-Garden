@@ -26,7 +26,7 @@
         <div class="form-group">
             <label for="plante">Plante associée</label>
 
-            <select class="form-select" name="plante" class="form-select" required>
+            <select class="form-select" name="plante" required>
                 <?php foreach ($plantes as $plante) { ?>
                     <option value="<?php echo $plante['nomP'] ?>"><?php echo $plante['nomP'] ?></option>
                 <?php } ?>

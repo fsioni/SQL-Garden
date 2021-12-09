@@ -67,7 +67,7 @@ function selectDistinctColsFromTable($connexion, $col, $col2, $table)
 function getVarietesByName($connexion, $nomVariete)
 {
     $nomSerie = mysqli_real_escape_string($connexion, $nomVariete); // au cas où $nomVariete provient d'un formulaire
-    $requete = "SELECT * FROM Dictionaire WHERE codeVariété = '" . $nomVariete . "'";
+    $requete = "SELECT * FROM Dictionnaire WHERE codeVariété = '" . $nomVariete . "'";
     $res = mysqli_query($connexion, $requete);
     $variétés = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $variétés;
@@ -109,6 +109,81 @@ function getVarietesEtPlantes($connexion)
 function getNomVariete($connexion, $id)
 {
     $requete = "SELECT * FROM `Dictionnaire` d JOIN Variétés v ON d.id = v.idV WHERE d.id = '$id'";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function getDetailsJardin($connexion, $id)
+{
+    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypeJardin NATURAL JOIN Jardins WHERE idJ ='$id'";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function modifJardin($connexion, $id, $nom, $surface, $type)
+{
+    $requete = "UPDATE Jardins SET nomJ = '$nom', surface = '$surface' WHERE idJ = '$id'";
+    $res[0] = mysqli_query($connexion, $requete);
+
+    $requete = "UPDATE FairePartieDe SET idTJ = '$type' WHERE idJ = '$id'";
+    $res[1] = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function ajoutJardin($connexion, $nom, $surface, $type)
+{
+    $requete = "INSERT INTO Jardins(nomJ, surface) VALUES ('$nom', '$surface')";
+    $res[0] = mysqli_query($connexion, $requete);
+
+    $requete = "INSERT INTO FairePartieDe(idJ, idTJ) VALUES((SELECT idJ FROM Jardins ORDER BY `Jardins`.`idJ` DESC LIMIT 1), $type)";
+    $res[1] = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function deleteJardin($connexion, $id)
+{
+    //TODO : supprimer les rangs et parcelles associées
+
+    $requete = "DELETE FROM FairePartieDe WHERE idJ = '$id'";
+    $res[0] = mysqli_query($connexion, $requete);
+
+    $requete = "DELETE FROM Jardins WHERE idJ = '$id'";
+    $res[1] = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function getJardinsAndTypes($connexion)
+{
+    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypeJardin NATURAL JOIN Jardins ORDER BY `FairePartieDe`.`idJ` ASC";
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function getParcellesOfJardin($connexion, $id)
+{
+    $requete = "SELECT * FROM `Parcelles` WHERE idJ = '$id'";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function getNumberOfParcelles($connexion, $id)
+{
+    $requete = "SELECT COUNT(*) as nb FROM `Parcelles` WHERE idJ = '$id'";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function getNumberOfRangs($connexion, $latitudeP, $longitudeP)
+{
+    $latitudeP = addcslashes($latitudeP, "'\"");
+    $longitudeP = addcslashes($longitudeP, "'\"");
+    $requete = "SELECT COUNT(*) as nb FROM `Rangs` WHERE latitudeP = \"$latitudeP\" && longitudeP = \"$longitudeP\"";
     $res = mysqli_query($connexion, $requete);
     $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instance;
