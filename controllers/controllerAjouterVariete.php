@@ -2,7 +2,7 @@
 $title = 'Ajouter une variété';
 
 // recupération des données
-$sols = getInstances($connexion, "TypesSol");
+$sols = getInstances($connexion, "TypesSols");
 $plantes = selectDistinctColFromTable($connexion, "nomP", "Plantes");
 $semenciers = selectDistinctColFromTable($connexion, "nomSem", "Semenciers");
 $codesPreco = selectDistinctColsFromTable($connexion, "précocité", "labelPrécocité", "Variétés");

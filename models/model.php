@@ -116,7 +116,7 @@ function getNomVariete($connexion, $id)
 
 function getDetailsJardin($connexion, $id)
 {
-    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypeJardin NATURAL JOIN Jardins WHERE idJ ='$id'";
+    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypesJardins NATURAL JOIN Jardins WHERE idJ ='$id'";
     $res = mysqli_query($connexion, $requete);
     $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instance;
@@ -133,7 +133,7 @@ function modifJardin($connexion, $id, $nom, $surface, $type)
     return $res;
 }
 
-function ajoutJardin($connexion, $nom, $surface, $type)
+function addJardin($connexion, $nom, $surface, $type)
 {
     $requete = "INSERT INTO Jardins(nomJ, surface) VALUES ('$nom', '$surface')";
     $res[0] = mysqli_query($connexion, $requete);
@@ -146,8 +146,6 @@ function ajoutJardin($connexion, $nom, $surface, $type)
 
 function deleteJardin($connexion, $id)
 {
-    //TODO : supprimer les rangs et parcelles associées
-
     $requete = "DELETE FROM FairePartieDe WHERE idJ = '$id'";
     $res[0] = mysqli_query($connexion, $requete);
 
@@ -158,7 +156,7 @@ function deleteJardin($connexion, $id)
 
 function getJardinsAndTypes($connexion)
 {
-    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypeJardin NATURAL JOIN Jardins ORDER BY `FairePartieDe`.`idJ` ASC";
+    $requete = "SELECT * FROM FairePartieDe NATURAL JOIN TypesJardins NATURAL JOIN Jardins ORDER BY `FairePartieDe`.`idJ` ASC";
     $res = mysqli_query($connexion, $requete);
     return $res;
 }
@@ -187,4 +185,73 @@ function getNumberOfRangs($connexion, $latitudeP, $longitudeP)
     $res = mysqli_query($connexion, $requete);
     $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instance;
+}
+
+function getNumberOfRecoltes($connexion, $latitudeP, $longitudeP)
+{
+    $latitudeP = addcslashes($latitudeP, "'\"");
+    $longitudeP = addcslashes($longitudeP, "'\"");
+    $requete = "SELECT COUNT(*) as nb FROM `Récoltes` WHERE latitudeP = \"$latitudeP\" && longitudeP = \"$longitudeP\"";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function getRecoltes($connexion, $latitudeP, $longitudeP)
+{
+    $latitudeP = addcslashes($latitudeP, "'\"");
+    $longitudeP = addcslashes($longitudeP, "'\"");
+    $requete = "SELECT * FROM `Récoltes` WHERE latitudeP = \"$latitudeP\" && longitudeP = \"$longitudeP\"";
+    $res = mysqli_query($connexion, $requete);
+    $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instance;
+}
+
+function deleteRecolte($connexion, $id)
+{
+    $requete = "DELETE FROM Récoltes WHERE idRec = '$id'";
+    $res[0] = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function addRecolte($connexion, $qual, $quant, $comm, $date, $lat, $long)
+{
+    $requete = "INSERT INTO Récoltes(qualité, quantité, commentaireRec, dateRec, latitudeP, longitudeP) VALUE('$qual', '$quant','$comm', '$date', '$lat', '$long')";
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function modifRecolte($connexion, $id, $qual, $quant, $comm, $date)
+{
+    $requete = "UPDATE Récoltes SET qualité = '$qual', quantité = '$quant', commentaireRec = '$comm', dateRec = '$date' WHERE idRec = '$id'";
+    echo $requete;
+    $res = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function deleteParcelle($connexion, $lat, $long)
+{
+    deleteRangsOfParcelle($connexion, $lat, $long);
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+    $requete = "DELETE FROM Parcelles WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    echo $requete;
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function deleteRangsOfParcelle($connexion, $lat, $long)
+{
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+
+    $requete = "DELETE FROM Occuper WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    $res[0] = mysqli_query($connexion, $requete);
+
+    //TODO suppression des rangs et des occupations
+    $requete = "DELETE FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    $res[1] = mysqli_query($connexion, $requete);
+
+    return $res;
 }

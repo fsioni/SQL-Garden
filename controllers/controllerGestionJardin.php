@@ -1,12 +1,12 @@
 <?php
 $title = "Gérer son jardin";
 
-$jardins = getJardinsAndTypes($connexion, "Jardins");
-$typesJ = getInstances($connexion, "TypeJardin");
+$jardins = getJardinsAndTypes($connexion);
+$typesJ = getInstances($connexion, "TypesJardins");
 
 if (isset($_GET['delete'])) {
     deleteJardin($connexion, $_GET['delete']);
-    $jardins = getJardinsAndTypes($connexion, "Jardins");
+    $jardins = getJardinsAndTypes($connexion);
 }
 
 if (isset($_POST['boutonValiderModifier'])) {
@@ -16,7 +16,7 @@ if (isset($_POST['boutonValiderModifier'])) {
     $type = mysqli_real_escape_string($connexion, $_POST['jardin-type']);
 
     if ($id == -1) { // ajout d'un jardin
-        ajoutJardin($connexion, $nom, $surface, $type);
+        addJardin($connexion, $nom, $surface, $type);
     } else { // modification du jardin
         $jardin = getDetailsJardin($connexion, $id);
 
@@ -24,5 +24,5 @@ if (isset($_POST['boutonValiderModifier'])) {
             modifJardin($connexion, $id, $nom, $surface, $type);
         }
     }
-    $jardins = getJardinsAndTypes($connexion, "Jardins");
+    $jardins = getJardinsAndTypes($connexion);
 }
