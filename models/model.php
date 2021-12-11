@@ -84,7 +84,7 @@ function insertVariete($connexion, $nomVariete, $plante, $semencier, $descriptio
 
 function getRandomVariete($connexion)
 {
-    $requete = "SELECT CodeVariété, id, nomEspèce FROM `Dictionnaire` ORDER BY RAND() LIMIT 1";
+    $requete = "SELECT CodeVariété, id, PlanteAssociée FROM `Dictionnaire` ORDER BY RAND() LIMIT 1";
     $res = mysqli_query($connexion, $requete);
     $instance = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instance;
@@ -224,7 +224,7 @@ function addRecolte($connexion, $qual, $quant, $comm, $date, $lat, $long)
 function modifRecolte($connexion, $id, $qual, $quant, $comm, $date)
 {
     $requete = "UPDATE Récoltes SET qualité = '$qual', quantité = '$quant', commentaireRec = '$comm', dateRec = '$date' WHERE idRec = '$id'";
-    echo $requete;
+
     $res = mysqli_query($connexion, $requete);
 
     return $res;
@@ -235,9 +235,13 @@ function deleteParcelle($connexion, $lat, $long)
     deleteRangsOfParcelle($connexion, $lat, $long);
     $lat = addcslashes($lat, "'\"");
     $long = addcslashes($long, "'\"");
+
+    $requete = "DELETE FROM Récoltes WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    $res[0] = mysqli_query($connexion, $requete);
+
     $requete = "DELETE FROM Parcelles WHERE latitudeP = '$lat' && longitudeP = '$long'";
-    echo $requete;
-    $res = mysqli_query($connexion, $requete);
+    $res[1] = mysqli_query($connexion, $requete);
+
     return $res;
 }
 
@@ -246,12 +250,85 @@ function deleteRangsOfParcelle($connexion, $lat, $long)
     $lat = addcslashes($lat, "'\"");
     $long = addcslashes($long, "'\"");
 
-    $requete = "DELETE FROM Occuper WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    $requete = "DELETE FROM Couvrir WHERE latitudeR IN (SELECT latitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long') && longitudeR IN (SELECT longitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long')";
     $res[0] = mysqli_query($connexion, $requete);
 
-    //TODO suppression des rangs et des occupations
-    $requete = "DELETE FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long'";
+    $requete = "DELETE FROM Occuper WHERE latitudeR IN (SELECT latitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long') && longitudeR IN (SELECT longitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long')";
     $res[1] = mysqli_query($connexion, $requete);
+
+    $requete = "DELETE FROM Rangs WHERE latitudeR IN (SELECT latitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long') && longitudeR IN (SELECT longitudeR FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long')";
+    $res[2] = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function modifParcelle($connexion, $lat, $long, $haut, $lar)
+{
+    $lat .= '\\"';
+    $long .= '\\"';
+
+    $requete = "UPDATE Parcelles SET hauteur = '$haut', largeur = '$lar' WHERE latitudeP = '$lat' && longitudeP = '$long'";
+
+    $res = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function addParcelle($connexion, $haut, $larg, $idJ)
+{
+    $lat = rand(0, 180) . "°," . rand(0, 60) . "\\'" . rand(0, 60) . "\\\"";
+    $long = rand(0, 180) . "°," . rand(0, 60) . "\\'" . rand(0, 60) . "\\\"";
+
+    $requete = "INSERT INTO Parcelles(latitudeP, longitudeP, hauteur, largeur, idJ) VALUES ('$lat', '$long', '$haut', '$larg', '$idJ')";
+
+    $res = mysqli_query($connexion, $requete);
+
+    return $res;
+}
+
+function getRangs($connexion, $lat, $long)
+{
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+    $requete = "SELECT * FROM Rangs WHERE latitudeP = '$lat' && longitudeP = '$long' ORDER BY `Rangs`.`numéro` ASC";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function getVarietesOnRang($connexion, $lat, $long)
+{
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+    $requete = "SELECT codeVariété, typeO FROM `Dictionnaire` d JOIN Occuper v ON d.id = v.idV WHERE latitudeR = '$lat' && longitudeR = '$long'";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function getPlantesSauvagesOnRang($connexion, $lat, $long)
+{
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+    $requete = "SELECT nomPS, dateDebut, dateFin FROM Couvrir WHERE latitudeR = '$lat' && longitudeR = '$long'";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function deleteSpecificRang($connexion, $lat, $long)
+{
+    $lat = addcslashes($lat, "'\"");
+    $long = addcslashes($long, "'\"");
+
+    $requete = "DELETE FROM Couvrir WHERE latitudeR = $lat && longitudeP = $long";
+    $res[0] = mysqli_query($connexion, $requete);
+
+    $requete = "DELETE FROM Occuper WHERE latitudeR = '$lat' && longitudeR = '$long'";
+    $res[1] = mysqli_query($connexion, $requete);
+
+    $requete = "DELETE FROM Rangs WHERE latitudeR = '$lat' && longitudeR = '$long'";
+    $res[2] = mysqli_query($connexion, $requete);
 
     return $res;
 }

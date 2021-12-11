@@ -1,5 +1,9 @@
 <h1>Parcelles de <?php echo $jardin[0]["nomJ"] ?></h1>
 <br>
+
+<?php if (empty($parcelles)) { ?>
+<h2>Aucune parcelle</h2>
+<?php } else { ?>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsParcelleModal"
     data-bs-long="-1" data-bs-lat="-1" data-bs-hauteur="0" data-bs-largeur="0">Ajouter une parcelle</button>
 <br>
@@ -26,11 +30,11 @@
                 <td><?php echo $parcelle["hauteur"] ?></td>
                 <td><?php echo $parcelle["largeur"] ?></td>
                 <td><?php
-                        $nbR = getNumberOfRangs($connexion, $parcelle["latitudeP"], $parcelle["longitudeP"])[0]["nb"];
-                        echo $nbR ?></td>
+                            $nbR = getNumberOfRangs($connexion, $parcelle["latitudeP"], $parcelle["longitudeP"])[0]["nb"];
+                            echo $nbR ?></td>
                 <td><?php
-                        $nbRec = getNumberOfRecoltes($connexion, $parcelle["latitudeP"], $parcelle["longitudeP"])[0]["nb"];
-                        echo $nbRec ?></td>
+                            $nbRec = getNumberOfRecoltes($connexion, $parcelle["latitudeP"], $parcelle["longitudeP"])[0]["nb"];
+                            echo $nbRec ?></td>
                 <td>
                     <ul class="list-inline m-0">
                         <li class="list-inline-item">
@@ -44,18 +48,21 @@
                                 data-bs-lat="<?php echo $parcelle["latitudeP"] ?>"
                                 data-bs-hauteur="<?php echo $parcelle["hauteur"] ?>"
                                 data-bs-largeur="<?php echo $parcelle["largeur"]
-                                                                                                                                                                                                                                                                                                                            ?>">Modifier</button>
+                                                                                                                                                                                                                                                                                                                                ?>">Modifier</button>
                         </li>
                         <?php if ($nbR != 0) { ?>
                         <li class=" list-inline-item">
-                            <a type="button" class="btn btn-info" href='index.php?page=afficher-rangs'>Afficher les
+                            <a type="button" class="btn btn-info"
+                                href='index.php?page=afficher-rangs&lat=<?php echo htmlspecialchars($parcelle["latitudeP"], ENT_QUOTES, 'UTF-8') . "&long=" . htmlspecialchars($parcelle["longitudeP"], ENT_QUOTES, 'UTF-8') ?>'>Afficher
+                                les
                                 rangs</a>
                         </li>
                         <?php } ?>
                         <?php if ($nbRec != 0) { ?>
                         <li class="list-inline-item">
                             <a type="button" class="btn btn-info"
-                                href='index.php?page=afficher-recoltes&lat=<?php echo htmlspecialchars($parcelle["latitudeP"], ENT_QUOTES, 'UTF-8') . "&long=" . htmlspecialchars($parcelle["longitudeP"], ENT_QUOTES, 'UTF-8') ?>'>Afficher
+                                href='
+                                index.php?page=afficher-recoltes&lat=<?php echo htmlspecialchars($parcelle["latitudeP"], ENT_QUOTES, 'UTF-8') . "&long=" . htmlspecialchars($parcelle["longitudeP"], ENT_QUOTES, 'UTF-8') ?>'>Afficher
                                 les récoltes</a>
                         </li>
                         <?php } ?>
@@ -66,6 +73,7 @@
         </tbody>
     </table>
 </div>
+<?php } ?>
 
 <div class="modal fade" id="detailsParcelleModal" tabindex="-1" aria-labelledby="detailsParcelleModalLabel"
     aria-hidden="true">
@@ -78,16 +86,9 @@
             <div class="modal-body">
                 <form method="post" action="#">
                     <div class="mb-3">
-                        <label for="parcelle-lat" class="col-form-label">Latitude :</label>
-                        <input type="text" name="parcelle-lat" class="form-control" id="parcelle-lat">
-                    </div>
-                    <div class="mb-3">
-                        <label for="parcelle-long" class="col-form-label">Longitude :</label>
-                        <input type="text" name="parcelle-long" class="form-control" id="parcelle-long">
-                    </div>
-                    <div class="mb-3">
                         <label for="parcelle-hauteur" class="col-form-label">Hauteur :</label>
-                        <input type="text" name="parcelle-hauteur" class="form-control" id="parcelle-hauteur">
+                        <input name="parcelle-hauteur" id="parcelle-hauteur" type="number" min="0" max="5000" step="1"
+                            class="form-control" required>
                     </div>
                     <div class="mb-3">
                         <label for="parcelle-largeur" class="col-form-label">Largeur :</label>
@@ -121,8 +122,6 @@ parcelleModal.addEventListener('show.bs.modal', function(event) {
 
     var modalTitle = parcelleModal.querySelector('.modal-title')
 
-    var modalparcelleLat = parcelleModal.querySelector('#parcelle-lat')
-    var modalparcelleLong = parcelleModal.querySelector('#parcelle-long')
     var modalparcelleHauteur = parcelleModal.querySelector('#parcelle-hauteur')
     var modalparcelleLargeur = parcelleModal.querySelector('#parcelle-largeur')
 
@@ -135,12 +134,9 @@ parcelleModal.addEventListener('show.bs.modal', function(event) {
         modalTitle.textContent = 'Modification de la parcelle '
         modalModifButton.textContent = "Modifier la parcelle"
     }
-    modalparcelleLat.value = lat + "\""
-    modalparcelleLong.value = long + "\""
     modalparcelleHauteur.value = haut
     modalparcelleLargeur.value = larg
 
-
-    modalModifButton.value = modalparcelleLat.value + "/" + modalparcelleLong.value
+    modalModifButton.value = lat + "/" + long;
 })
 </script>

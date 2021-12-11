@@ -6,5 +6,6 @@ $routes = array(
     'generer-parcelle' => array('controller' => "controllerGenererParcelle", 'view' => 'viewGenererParcelle'),
     'gestion-jardin' => array('controller' => "controllerGestionJardin", 'view' => 'viewGestionJardin'),
     'afficher-recoltes' => array('controller' => "controllerAfficherRecoltes", 'view' => 'viewAfficherRecoltes'),
+    'afficher-rangs' => array('controller' => "controllerAfficherRangs", 'view' => 'viewAfficherRangs'),
     'afficher-parcelles' => array('controller' => "controllerAfficherParcelles", 'view' => 'viewAfficherParcelles')
 );

@@ -2,9 +2,9 @@
 <br />
 
 <?php if (isset($errorMessage)) { ?>
-    <div class="alert alert-danger" role="alert">
-        <?php echo $errorMessage ?>
-    </div>
+<div class="alert alert-danger" role="alert">
+    <?php echo $errorMessage ?>
+</div>
 <?php } ?>
 
 
@@ -16,7 +16,7 @@
 
         <select name="jardin" class="form-select" class="form-select" required>
             <?php foreach ($jardins as $j) { ?>
-                <option value="<?php echo $j['nomJ'] ?>"><?php echo $j['nomJ'] ?></option>
+            <option value="<?php echo $j['nomJ'] ?>"><?php echo $j['nomJ'] ?></option>
             <?php } ?>
         </select>
     </div>
@@ -54,42 +54,42 @@
 </form>
 
 <?php if ($formTraite) : ?>
-    <hr />
-    <h1>Parcelle générée pour <strong><?php echo $jardin ?></strong> </h1>
-    <br />
-    <p><strong>Nombre de rangs de la parcelle :</strong> <?php echo $nbRangs ?></p>
-    <p><strong>Nombre de rangs libres : </strong> <?php echo ($nbRangs - ($nbRangsCult + $nbRangsSauv)) ?></p>
-    <p><strong>Nombre de rangs occupés par des cultures : </strong><?php echo $nbRangsCult ?></p>
-    <p><strong>Nombre de rangs occupés par des plantes sauvages : </strong><?php echo $nbRangsSauv ?></p>
+<hr />
+<h1>Parcelle générée pour <strong><?php echo $jardin ?></strong> </h1>
+<br />
+<p><strong>Nombre de rangs de la parcelle :</strong> <?php echo $nbRangs ?></p>
+<p><strong>Nombre de rangs libres : </strong> <?php echo ($nbRangs - ($nbRangsCult + $nbRangsSauv)) ?></p>
+<p><strong>Nombre de rangs occupés par des cultures : </strong><?php echo $nbRangsCult ?></p>
+<p><strong>Nombre de rangs occupés par des plantes sauvages : </strong><?php echo $nbRangsSauv ?></p>
 
-    <br />
-    <div class="table-responsive" id="parcelle-tab">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th scope="col">Rang</th>
-                    <th scope="col">Contenu / type de mise en place</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($parcelle as $index => $contenu) { ?>
-                    <tr>
-                        <th scope="row"><?php echo ($index + 1) ?></th>
-                        <td><?php if ($contenu == "Libre") {
+<br />
+<div class="table-responsive" id="parcelle-tab">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Rang</th>
+                <th scope="col">Contenu / type de mise en place</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($parcelle as $index => $contenu) { ?>
+            <tr>
+                <th scope="row"><?php echo ($index + 1) ?></th>
+                <td><?php if ($contenu == "Libre") {
                                 echo "<p class=\"text-primary\">" . $contenu . "</p>";
                             } elseif (array_key_exists('nomPS', $contenu[0])) {
                                 echo "<p class=\"text-danger\">" . ucfirst($contenu[0]["nomPS"]) . "</p>";
                             } else {
                                 foreach ($contenu as $var) {
                                     $temp = getNomVariete($connexion, $var["Plante"][0]["id"]);
-                                    echo "<p class=\"text-success\">" . $temp[0]["codeVariété"] . " (" . $temp[0]["nomEspèce"] .
+                                    echo "<p class=\"text-success\">" . $temp[0]["codeVariété"] . " (" . $temp[0]["PlanteAssociée"] .
                                         ") / " . $var['Type'] . "</p>";
                                 }
                             }
                             ?></td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+            </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+</div>
 <?php endif; ?>
