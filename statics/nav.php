@@ -17,6 +17,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php?page=generer-parcelle">Générer et afficher une parcelle</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?page=gestion-jardin">Gérer les jardins</a>
+            </li>
         </ul>
     </div>
 </nav>
