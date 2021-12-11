@@ -332,3 +332,27 @@ function deleteSpecificRang($connexion, $lat, $long)
 
     return $res;
 }
+
+function getStatsTypeOcc($connexion)
+{
+    $requete = "SELECT typeO, COUNT(*) as nb FROM Occuper GROUP BY typeO ORDER BY `nb`  DESC";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function getStatsNbParcelles($connexion)
+{
+    $requete = "SELECT idJ, nomJ, COUNT(*) as nb FROM Parcelles NATURAL JOIN Jardins GROUP BY idJ ORDER BY `nb`  DESC LIMIT 5";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function getPlusVariétés($connexion)
+{
+    $requete = "SELECT PlanteAssociée, COUNT(*) as nb FROM Dictionnaire GROUP BY PlanteAssociée ORDER BY `nb`  DESC LIMIT 5";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}

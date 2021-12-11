@@ -8,19 +8,26 @@
                         <h5 class="card-title">Nombres d'instances par tables des plus importantes</h5>
                         <ul>
                             <li>
-                                <p class="card-text">Plantes : <?php echo countInstances($connexion, "Plantes") ?></p>
+                                <p class="card-text">Plantes :
+                                    <strong><?php echo countInstances($connexion, "Plantes") ?></strong>
+                                </p>
                             </li>
                             <li>
-                                <p class="card-text">Variétés : <?php echo countInstances($connexion, "Variétés") ?></p>
+                                <p class="card-text">Variétés : <strong>
+                                        <?php echo countInstances($connexion, "Variétés") ?></strong></p>
                             </li>
                             <li>
-                                <p class="card-text">Plantes Sauvages : <?php echo countInstances($connexion, "PlantesSauvages") ?></p>
+                                <p class="card-text">Plantes Sauvages : <strong>
+                                        <?php echo countInstances($connexion, "PlantesSauvages") ?></strong></p>
                             </li>
                             <li>
-                                <p class="card-text">Rangs : <?php echo countInstances($connexion, "Rangs") ?></p>
+                                <p class="card-text">Rangs : <strong>
+                                        <?php echo countInstances($connexion, "Rangs") ?></strong></p>
                             </li>
                             <li>
-                                <p class="card-text">Parcelles : <?php echo countInstances($connexion, "Parcelles") ?></p>
+                                <p class="card-text">Parcelles : <strong>
+                                        <?php echo countInstances($connexion, "Parcelles") ?></strong>
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -29,16 +36,12 @@
             <div class="col-sm-6 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Variétés les plus utilisées (top 3)</h5>
+                        <h5 class="card-title">Utilisation des types d'occupation</h5>
                         <ul>
-                            <li>
-                                <p class="card-text">Lorem : 232</p>
-                            </li>
-                            <li>
-                                <p class="card-text">Ipsum : 189</p>
-                            </li>
-                            <li>
-                                <p class="card-text">Dolore : 156</p>
+                            <?php $typeOcc = getStatsTypeOcc($connexion);
+                            foreach ($typeOcc as $t) {
+                                echo '<li><p class="card-text">' . $t['typeO'] . ' : <strong>' . $t['nb'] . '</strong> fois</p></li>';
+                            } ?>
                         </ul>
                     </div>
                 </div>
@@ -46,8 +49,26 @@
             <div class="col-sm-6 mt-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Lorem, ipsum dolor sit amet</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <h5 class="card-title">Nombre de parcelles par jardin (top 5)</h5>
+                        <ul>
+                            <?php $jardin = getStatsNbParcelles($connexion);
+                            foreach ($jardin as $j) {
+                                echo '<li><p class="card-text">' . $j['nomJ'] . ' (ID : ' . $j['idJ'] . ') : <strong>' . $j['nb'] . '</strong> parcelles</p></li>';
+                            } ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Plantes avec le plus de variétés (top 5)</h5>
+                        <ul>
+                            <?php $plantes = getPlusVariétés($connexion);
+                            foreach ($plantes as $p) {
+                                echo '<li><p class="card-text">' . $p['PlanteAssociée'] . ' : <strong>' . $p['nb'] . '</strong> variétés</p></li>';
+                            } ?>
+                        </ul>
                     </div>
                 </div>
             </div>
