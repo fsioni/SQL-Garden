@@ -40,7 +40,7 @@
 
     <div class="form-group">
         <label for="minR">Pourcentage des rangs occupés par des cultures</label>
-        <input type="number" name="pourcVar" min="0" max="100" step="1" value="50" class="form-control" required>
+        <input type="number" name="pourcCult" min="0" max="100" step="1" value="50" class="form-control" required>
     </div>
     <br />
 
@@ -55,7 +55,7 @@
 
 <?php if ($formTraite) : ?>
 <hr />
-<h1>Parcelle générée pour <strong><?php echo $jardin ?></strong> </h1>
+<h1>Parcelle générée pour <strong><?php echo $data_formulaire["jardin"] ?></strong> </h1>
 <br />
 <p><strong>Nombre de rangs de la parcelle :</strong> <?php echo $nbRangs ?></p>
 <p><strong>Nombre de rangs libres : </strong> <?php echo ($nbRangs - ($nbRangsCult + $nbRangsSauv)) ?></p>
@@ -72,19 +72,20 @@
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($parcelle as $index => $contenu) { ?>
+            <?php for ($i = 0; $i < $nbRangs; $i++) { ?>
             <tr>
-                <th scope="row"><?php echo ($index + 1) ?></th>
-                <td><?php if ($contenu == "Libre") {
-                                echo "<p class=\"text-primary\">" . $contenu . "</p>";
-                            } elseif (array_key_exists('nomPS', $contenu[0])) {
-                                echo "<p class=\"text-danger\">" . ucfirst($contenu[0]["nomPS"]) . "</p>";
+                <th scope="row"><?php echo ($i+1) ?></th>
+                <td><?php if ($parcelle[$i][3] == "Libre") {
+                                echo "<p class=\"text-primary\">" . $parcelle[$i][3] . "</p>";
+                            } elseif ($parcelle[$i][3] == "Envahi") {
+                                echo "<h3 class=\"text-danger\">Statut :  " . $parcelle[$i][3]. "</h3>";
+				echo "<p class=\"text-danger\">" . $data_rangsSauv[$i-$nbRangsCult][2] . "</p>";
                             } else {
-                                foreach ($contenu as $var) {
-                                    $temp = getNomVariete($connexion, $var["Plante"][0]["id"]);
-                                    echo "<p class=\"text-success\">" . $temp[0]["codeVariété"] . " (" . $temp[0]["PlanteAssociée"] .
-                                        ") / " . $var['Type'] . "</p>";
-                                }
+                                echo "<h3 class=\"text-success\">Statut :  " . $parcelle[$i][3]. "</h3>";
+                                echo "<p class=\"text-success\"> Variété occupante :  " . $data_rangsCult[$i][0]. "</p>";
+                                echo "<p class=\"text-success\">Longitude :  " . $data_rangsCult[$i][1]. "</p>";
+                                echo "<p class=\"text-success\">Latitude  :  " . $data_rangsCult[$i][2]. "</p>";
+                                echo "<p class=\"text-success\">Type d'occupation: " . $data_rangsCult[$i][3]. "</p>";
                             }
                             ?></td>
             </tr>

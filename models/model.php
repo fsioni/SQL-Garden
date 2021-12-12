@@ -42,8 +42,7 @@ function getInstances($connexion, $nomTable)
 function getFromRequest($connexion, $requete)
 {
     $res = mysqli_query($connexion, $requete);
-    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
-    return $instances;
+    return $res;
 }
 
 // retourne la colonne $col des instances d'une table $table
@@ -67,19 +66,56 @@ function selectDistinctColsFromTable($connexion, $col, $col2, $table)
 function getVarietesByName($connexion, $nomVariete)
 {
     $nomSerie = mysqli_real_escape_string($connexion, $nomVariete); // au cas où $nomVariete provient d'un formulaire
-    $requete = "SELECT * FROM Dictionnaire WHERE codeVariété = '" . $nomVariete . "'";
+    $requete = "SELECT * FROM Dictionnaire WHERE codeVariété LIKE '" . $nomVariete . "'";
     $res = mysqli_query($connexion, $requete);
     $variétés = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $variétés;
 }
 
 // insère une nouvelle variété nommée $nomVariete
-function insertVariete($connexion, $nomVariete, $plante, $semencier, $descriptions, $commentaire, $annee, $adaptArgileux, $adaptLimoneux, $adaptSableux, $precocite, $plantation, $entretien, $recolte, $joursLevee, $perPlant, $perRec)
+function insertVariete($connexion, $data_form){
+	$id_V = sha1($data_form["nomVariete"].$data_form["plante"]);
+
+	$query_dic = "INSERT INTO Dictionnaire VALUES ('".$id_V."','".
+		$data_form["nomVariete"]."','".$data_form["plante"]."')";
+
+	$query_var = "INSERT INTO Variétés VALUES ('".$id_V."',".$data_form["année"].
+			",'".$data_form["precocite"].
+			"','".$data_form["labelPrecocite"].
+			"','".$data_form["plantation"].
+			"','".$data_form["entretien"].
+			"','".$data_form["recolte"].
+			"',".$data_form["joursLevee"].
+			",'".$data_form["perPlant"].
+			"','".$data_form["perRec"].
+			"','".$data_form["commentaire"].
+		      	"')";
+	$query_prod = "INSERT INTO Produire VALUES ('".$data_form["semencier"]."','".$id_V."','".$data_form["version"]."')";
+
+	$res_dic = mysqli_query($connexion, $query_dic);
+	$res_var = mysqli_query($connexion, $query_var);
+	$res_prod = mysqli_query($connexion, $query_prod);
+
+	$res_desc = 1 ;
+	foreach($data_form["descriptions"] as $des){
+		$query_desc = "INSERT INTO Descriptions VALUES ('".$des."','".$id_V."')";
+		$res_desc = $res_desc && mysqli_query($connexion, $query_desc);
+	}
+	return ($res_dic && $res_var && $res_prod && $res_desc);
+}
+
+function genCoords(){
+	return rand(0,180)."°,".rand(0,60)."\\'".rand(0,60)."\\\"";
+}
+
+function checkExists($connexion, $nomVariete,$nomPlante)
 {
-    //TODO
-    //$requete = "INSERT INTO Variétés VALUES ('" . $nomVariete, $plante,$semencier, $descriptions, $commentaire, $annee, $adaptArgileux, $adaptLimoneux, $adaptSableux, $precocite, $plantation, $entretien, $recolte, $joursLevee, $perPlant, $perRec . "')";
-    //$res = mysqli_query($connexion, $requete);
-    //return $res;
+    $requete = "SELECT * FROM Dictionnaire WHERE id LIKE '" . sha1($nomVariete.$nomPlante) ."'";
+    $res = mysqli_query($connexion, $requete);
+    if($res->num_rows > 0){
+	return true;
+    }
+    return false;
 }
 
 function getRandomVariete($connexion)
@@ -355,4 +391,53 @@ function getPlusVariétés($connexion)
     $res = mysqli_query($connexion, $requete);
     $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
     return $instances;
+}
+
+function executerequest($query,$link){
+    if($link->query($query) === false){
+	 print("error");
+	 print($link->error);
+    }
+}
+
+function set_lat_long($x,$length = 49){
+	$set = array(array());
+	for($i = 0; $i < $length; $i++){
+		for($j = $x; $j < $x+2; $j++){
+			$set[$i][$j] = genCoords();
+		}
+	}
+	return $set;
+}
+
+function genRequestLoad($table,$fields_fill,$data){
+    global $result,$num_etu;
+    $query = "INSERT INTO ".$num_etu.".".$table." (";
+    for($i = 0; $i < count($fields_fill); $i++){
+	$query = $query."`".$fields_fill[$i]."`";
+	if($i < count($fields_fill)-1)
+	   $query = $query.",";
+    }
+    $query = $query.") VALUES ";
+	for($i = 0; $i < count($data); $i++){
+		$query .= "(";
+		for($j = 0; $j < count($fields_fill); $j++){
+				if(strpbrk($data[$i][$j],"1234567890") !== false and
+		   		   strpbrk($data[$i][$j],"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz °") === false){
+				$query .= $data[$i][$j];
+		}else{
+			if(count($fields_fill) === 1){
+				$query .= "\"".$data[$i]."\"";
+			}else{
+				$query .= "\"".$data[$i][$j]."\"";
+			}
+		}
+		if($j < count($fields_fill)-1)
+			$query .= ",";
+		}
+		$query .= "),";
+	}
+    $query = substr($query,0,-1);
+	$query .= ";";
+    return($query);
 }

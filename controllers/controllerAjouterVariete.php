@@ -5,43 +5,37 @@ $title = 'Ajouter une variété';
 $sols = getInstances($connexion, "TypesSols");
 $plantes = selectDistinctColFromTable($connexion, "nomP", "Plantes");
 $semenciers = selectDistinctColFromTable($connexion, "nomSem", "Semenciers");
-$codesPreco = selectDistinctColsFromTable($connexion, "précocité", "labelPrécocité", "Variétés");
+$codesPreco = selectDistinctColsFromTable($connexion, "précocité","labelPrécocité", "Variétés");
 
 if (isset($_POST['boutonValider'])) { // formulaire soumis
 
-    $nomVariete = mysqli_real_escape_string($connexion, $_POST['nomVariete']); // recuperation de la valeur saisie
-    $plante = mysqli_real_escape_string($connexion, $_POST['plante']);
-    $semencier = mysqli_real_escape_string($connexion, $_POST['semencier']);
-    $version = mysqli_real_escape_string($connexion, $_POST['version']);
-    //TODO : gérer les ';' pour les descriptions
-    $descriptions = mysqli_real_escape_string($connexion, $_POST['descriptions']);
-    $commentaire = mysqli_real_escape_string($connexion, $_POST['commentaire']);
-    $annee = mysqli_real_escape_string($connexion, $_POST['année']);
-
-    $adaptArgileux = mysqli_real_escape_string($connexion, $_POST['adaptArgileux']);
-    $adaptLimoneux = mysqli_real_escape_string($connexion, $_POST['adaptLimoneux']);
-    $adaptSableux = mysqli_real_escape_string($connexion, $_POST['adaptSableux']);
-
-    $precocite = mysqli_real_escape_string($connexion, $_POST['precocite']);
-
-    $plantation = mysqli_real_escape_string($connexion, $_POST['plantation']);
-    $entretien = mysqli_real_escape_string($connexion, $_POST['entretien']);
-    $recolte = mysqli_real_escape_string($connexion, $_POST['recolte']);
-    $joursLevee = mysqli_real_escape_string($connexion, $_POST['joursLevee']);
-    $perPlant = mysqli_real_escape_string($connexion, $_POST['perPlant']);
-    $perRec = mysqli_real_escape_string($connexion, $_POST['perRec']);
+    $data_keys = array("nomVariete","plante","semencier","version","descriptions","commentaire","année",
+		"adaptArgileux","adaptLimoneux","adaptSableux","precocite","plantation","entretien",
+		"recolte","joursLevee","perPlant","perRec");
+    $data_formulaire = array();
+    foreach($data_keys as $key){
+	    if($key == "descriptions"){
+		    $data_formulaire[$key] = explode(";",mysqli_real_escape_string($connexion, $_POST[$key]));
+	    }else if($key == "precocite"){
+		    $v = explode(";",mysqli_real_escape_string($connexion, $_POST[$key]));
+		    $data_formulaire[$key] = $v[0];
+		    $data_formulaire["labelPrecocite"] = $v[1];
+	    }else{
+		$data_formulaire[$key] = mysqli_real_escape_string($connexion, $_POST[$key]);
+	    }
+    }
 
 
-    $verification = getVarietesByName($connexion, $nomVariete);
+    $verification = checkExists($connexion, $data_formulaire["nomVariete"],$data_formulaire["plante"]);
 
-    if ($verification == FALSE || count($verification) == 0) { // pas de variété avec ce nom, insertion
-        //$insertion = insertVariete($connexion, $nomVariete, $plante, $semencier, $version, $descriptions, $commentaire, $annee, $adaptArgileux, $adaptLimoneux, $adaptSableux, $precocite, $plantation, $entretien, $recolte, $joursLevee, $perPlant, $perRec);
-        if (/*$insertion == */TRUE) {
-            $successMessage = "La variété $nomVariete a bien été ajoutée !";
+    if ($verification == false) { // pas de variété avec ce nom, insertion
+        $insertion = insertVariete($connexion,$data_formulaire);
+        if ($insertion == 1) {
+            $successMessage = "La variété ".$data_formulaire["nomVariete"]."a bien été ajoutée !";
         } else {
-            $errorMessage = "Erreur lors de l'insertion de la variété $nomVariete.";
+            $errorMessage = "Erreur lors de l'insertion de la variété".$data_formulaire["nomVariete"];
         }
     } else {
-        $errorMessage = "Une variété existe déjà avec le nom $nomVariete.";
+        $errorMessage = "Une variété existe déjà avec le nom ".$data_formulaire["nomVariete"];
     }
 }

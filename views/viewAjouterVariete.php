@@ -1,6 +1,7 @@
     <h1>Ajouter une variété</h1>
     <br>
-
+<pre>
+</pre>
     <?php if (isset($errorMessage)) { ?>
         <div class="alert alert-danger" role="alert">
             <?php echo $errorMessage ?>
@@ -26,7 +27,7 @@
         <div class="form-group">
             <label for="plante">Plante associée</label>
 
-            <select class="form-select" name="plante" required>
+            <select class="form-select" name="plante" class="form-select" required>
                 <?php foreach ($plantes as $plante) { ?>
                     <option value="<?php echo $plante['nomP'] ?>"><?php echo $plante['nomP'] ?></option>
                 <?php } ?>
@@ -92,7 +93,7 @@
 
             <select name="precocite" class="form-select" class="form-select" required>
                 <?php foreach ($codesPreco as $codePreco) { ?>
-                    <option value="<?php echo $codePreco['précocité'] ?>"><?php echo $codePreco['précocité'] . " / " . $codePreco['labelPrécocité'] ?></option>
+                    <option value="<?php echo $codePreco['précocité'].";".$codePreco["labelPrécocité"] ?>"><?php echo $codePreco['précocité'] . " / " . $codePreco['labelPrécocité'] ?></option>
                 <?php } ?>
             </select>
         </div>
