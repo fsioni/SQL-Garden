@@ -29,8 +29,7 @@
                                         foreach ($var as $v) {
                                             echo "<li><p class=\"text-success\">" . $v["codeVariété"] . " / " . $v["typeO"] . "</p></li>";
                                         }
-                                    }
-                                    if (!empty($ps)) {
+                                    } elseif (!empty($ps)) {
                                         echo "<li><p class=\"text-danger\">" . $ps[0]["nomPS"] . "</p></li>";
                                     } else {
                                         echo "<p class=\"text-primary\">Libre</p>";

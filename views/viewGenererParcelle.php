@@ -16,11 +16,24 @@
 
         <select name="jardin" class="form-select" class="form-select" required>
             <?php foreach ($jardins as $j) { ?>
-            <option value="<?php echo $j['nomJ'] ?>"><?php echo $j['nomJ'] ?></option>
+            <option value="<?php echo $j['idJ'] ?>"><?php echo $j['nomJ'] ?></option>
             <?php } ?>
         </select>
     </div>
     <br>
+
+    <h4>Attributs de la parcelle</h4>
+
+    <div class="form-group">
+        <label for="hauteurP">Hauteur</label>
+        <input type="number" name="hauteurP" min="1" max="2000" step="1" value="50" class="form-control" required>
+    </div>
+
+    <div class="form-group">
+        <label for="largeurP">Largeur</label>
+        <input type="number" name="largeurP" min="1" max="2000" step="1" value="50" class="form-control" required>
+    </div>
+    <br />
 
     <h4>Nombre de rangs</h4>
 
@@ -28,7 +41,6 @@
         <label for="minR">Nombre de rangs minimum</label>
         <input type="number" name="minR" min="1" max="2000" step="1" value="50" class="form-control" required>
     </div>
-    <br />
 
     <div class="form-group">
         <label for="maxR">Nombre de rangs maximum</label>
@@ -40,9 +52,8 @@
 
     <div class="form-group">
         <label for="minR">Pourcentage des rangs occupés par des cultures</label>
-        <input type="number" name="pourcCult" min="0" max="100" step="1" value="50" class="form-control" required>
+        <input type="number" name="pourcVar" min="0" max="100" step="1" value="50" class="form-control" required>
     </div>
-    <br />
 
     <div class="form-group">
         <label for="minR">Pourcentage des rangs occupés par des nuisibles</label>
@@ -55,7 +66,7 @@
 
 <?php if ($formTraite) : ?>
 <hr />
-<h1>Parcelle générée pour <strong><?php echo $data_formulaire["jardin"] ?></strong> </h1>
+<h1>Parcelle générée pour <strong><?php echo $nomJ ?></strong> </h1>
 <br />
 <p><strong>Nombre de rangs de la parcelle :</strong> <?php echo $nbRangs ?></p>
 <p><strong>Nombre de rangs libres : </strong> <?php echo ($nbRangs - ($nbRangsCult + $nbRangsSauv)) ?></p>
@@ -69,25 +80,27 @@
             <tr>
                 <th scope="col">Rang</th>
                 <th scope="col">Contenu / type de mise en place</th>
+                <th scope="col">Latitude</th>
+                <th scope="col">Longitude</th>
             </tr>
         </thead>
         <tbody>
-            <?php for ($i = 0; $i < $nbRangs; $i++) { ?>
+            <?php foreach ($parcelle as $index => $contenu) { ?>
             <tr>
-                <th scope="row"><?php echo ($i+1) ?></th>
-                <td><?php if ($parcelle[$i][3] == "Libre") {
-                                echo "<p class=\"text-primary\">" . $parcelle[$i][3] . "</p>";
-                            } elseif ($parcelle[$i][3] == "Envahi") {
-                                echo "<h3 class=\"text-danger\">Statut :  " . $parcelle[$i][3]. "</h3>";
-				echo "<p class=\"text-danger\">" . $data_rangsSauv[$i-$nbRangsCult][2] . "</p>";
+                <th scope="row"><?php echo ($index + 1) ?></th>
+                <td><?php if ($contenu == "Libre") {
+                                echo "<p class=\"text-primary\">" . $contenu . "</p></td><td>" . stripslashes($coordsRangs[$index]['lat']) . "</td>" . "<td>" . stripslashes($coordsRangs[$index]['long']) . "</td>";
+                            } elseif (array_key_exists('nomPS', $contenu[0])) {
+                                echo "<p class=\"text-danger\">" . ucfirst($contenu[0]["nomPS"]) . "</p></td><td>" . stripslashes($coordsRangs[$index]['lat']) . "</td>" . "<td>" . stripslashes($coordsRangs[$index]['long']) . "</td>";
                             } else {
-                                echo "<h3 class=\"text-success\">Statut :  " . $parcelle[$i][3]. "</h3>";
-                                echo "<p class=\"text-success\"> Variété occupante :  " . $data_rangsCult[$i][0]. "</p>";
-                                echo "<p class=\"text-success\">Longitude :  " . $data_rangsCult[$i][1]. "</p>";
-                                echo "<p class=\"text-success\">Latitude  :  " . $data_rangsCult[$i][2]. "</p>";
-                                echo "<p class=\"text-success\">Type d'occupation: " . $data_rangsCult[$i][3]. "</p>";
+                                foreach ($contenu as $var) {
+                                    $temp = getNomVariete($connexion, $var["Plante"][0]["id"]);
+                                    echo "<p class=\"text-success\">" . $temp[0]["codeVariété"] . " (" . $temp[0]["PlanteAssociée"] .
+                                        ") / " . $var['Type'] . "</p>";
+                                }
+                                echo "</td><td>" . stripslashes($coordsRangs[$index]['lat']) . "</td>" . "<td>" . stripslashes($coordsRangs[$index]['long']) . "</td>";
                             }
-                            ?></td>
+                            ?>
             </tr>
             <?php } ?>
         </tbody>
