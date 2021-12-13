@@ -92,16 +92,22 @@ function insertVariete($connexion, $data_form){
 		      	"')";
 	$query_prod = "INSERT INTO Produire VALUES ('".$data_form["semencier"]."','".$id_V."','".$data_form["version"]."')";
 
+   $query_adapt = "INSERT INTO EtreAdapté VALUES('".$id_V."','".round(1/rand(1,9),2).
+      "','".round(1/rand(1,9),2).
+      "','".round(1/rand(1,9),2).
+      "')";
+                                                
 	$res_dic = mysqli_query($connexion, $query_dic);
 	$res_var = mysqli_query($connexion, $query_var);
 	$res_prod = mysqli_query($connexion, $query_prod);
+   $res_adapt = mysqli_query($connexion, $query_adapt);
 
 	$res_desc = 1 ;
 	foreach($data_form["descriptions"] as $des){
 		$query_desc = "INSERT INTO Descriptions VALUES ('".$des."','".$id_V."')";
 		$res_desc = $res_desc && mysqli_query($connexion, $query_desc);
 	}
-	return ($res_dic && $res_var && $res_prod && $res_desc);
+	return ($res_dic && $res_var && $res_prod && $res_desc && $res_adapt);
 }
 
 function genCoords(){
