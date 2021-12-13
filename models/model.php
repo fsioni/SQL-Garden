@@ -73,41 +73,42 @@ function getVarietesByName($connexion, $nomVariete)
 }
 
 // insère une nouvelle variété nommée $nomVariete
-function insertVariete($connexion, $data_form){
-	$id_V = sha1($data_form["nomVariete"].$data_form["plante"]);
+function insertVariete($connexion, $data_form)
+{
+    $id_V = sha1($data_form["nomVariete"] . $data_form["plante"]);
 
-	$query_dic = "INSERT INTO Dictionnaire VALUES ('".$id_V."','".
-		$data_form["nomVariete"]."','".$data_form["plante"]."')";
+    $query_dic = "INSERT INTO Dictionnaire VALUES ('" . $id_V . "','" .
+        $data_form["nomVariete"] . "','" . $data_form["plante"] . "')";
 
-	$query_var = "INSERT INTO Variétés VALUES ('".$id_V."',".$data_form["année"].
-			",'".$data_form["precocite"].
-			"','".$data_form["labelPrecocite"].
-			"','".$data_form["plantation"].
-			"','".$data_form["entretien"].
-			"','".$data_form["recolte"].
-			"',".$data_form["joursLevee"].
-			",'".$data_form["perPlant"].
-			"','".$data_form["perRec"].
-			"','".$data_form["commentaire"].
-		      	"')";
-	$query_prod = "INSERT INTO Produire VALUES ('".$data_form["semencier"]."','".$id_V."','".$data_form["version"]."')";
+    $query_var = "INSERT INTO Variétés VALUES ('" . $id_V . "'," . $data_form["année"] .
+        ",'" . $data_form["precocite"] .
+        "','" . $data_form["labelPrecocite"] .
+        "','" . $data_form["plantation"] .
+        "','" . $data_form["entretien"] .
+        "','" . $data_form["recolte"] .
+        "'," . $data_form["joursLevee"] .
+        ",'" . $data_form["perPlant"] .
+        "','" . $data_form["perRec"] .
+        "','" . $data_form["commentaire"] .
+        "')";
+    $query_prod = "INSERT INTO Produire VALUES ('" . $data_form["semencier"] . "','" . $id_V . "','" . $data_form["version"] . "')";
 
-   $query_adapt = "INSERT INTO EtreAdapté VALUES('".$id_V."','".round(1/rand(1,9),2).
-      "','".round(1/rand(1,9),2).
-      "','".round(1/rand(1,9),2).
-      "')";
-                                                
-	$res_dic = mysqli_query($connexion, $query_dic);
-	$res_var = mysqli_query($connexion, $query_var);
-	$res_prod = mysqli_query($connexion, $query_prod);
-   $res_adapt = mysqli_query($connexion, $query_adapt);
+    $query_adapt = "INSERT INTO EtreAdapté VALUES('" . $id_V . "','" . $data_form["adaptLimoneux"] .
+        "','" . $data_form["adaptArgileux"] .
+        "','" . $data_form["adaptSableux"] .
+        "')";
 
-	$res_desc = 1 ;
-	foreach($data_form["descriptions"] as $des){
-		$query_desc = "INSERT INTO Descriptions VALUES ('".$des."','".$id_V."')";
-		$res_desc = $res_desc && mysqli_query($connexion, $query_desc);
-	}
-	return ($res_dic && $res_var && $res_prod && $res_desc && $res_adapt);
+    $res_dic = mysqli_query($connexion, $query_dic);
+    $res_var = mysqli_query($connexion, $query_var);
+    $res_prod = mysqli_query($connexion, $query_prod);
+    $res_adapt = mysqli_query($connexion, $query_adapt);
+
+    $res_desc = 1;
+    foreach ($data_form["descriptions"] as $des) {
+        $query_desc = "INSERT INTO Descriptions VALUES ('" . $des . "','" . $id_V . "')";
+        $res_desc = $res_desc && mysqli_query($connexion, $query_desc);
+    }
+    return ($res_dic && $res_var && $res_prod && $res_desc && $res_adapt);
 }
 
 function genCoords()
