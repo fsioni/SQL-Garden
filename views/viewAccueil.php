@@ -31,11 +31,9 @@
         </div>
     </div>
 
-    <hr />
-
     <div class="px-4 py-5 my-5 text-center">
-        <img class="d-block mx-auto mb-4 img-thumbnail" src="data/img/indexImg3.jpg" alt="Photo d'un jardin" width="426"
-            height="320">
+        <img class="d-block mx-auto mb-4 img-thumbnail" src="data/img/indexImg2.jpg" alt="Photo d'une parcelle de champ"
+            width="426" height="320">
         <h1 class="display-5 fw-bold">Gérez vos jardins d'une main de maître</h1>
         <div class="col-lg-6 mx-auto">
             <p class="lead mb-4">Ayez toutes les informations sur vos jardins, parcelles, récoltes, rangs. Procédez aux
