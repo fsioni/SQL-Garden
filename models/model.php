@@ -110,16 +110,17 @@ function insertVariete($connexion, $data_form){
 	return ($res_dic && $res_var && $res_prod && $res_desc && $res_adapt);
 }
 
-function genCoords(){
-	return rand(0,180)."°,".rand(0,60)."\\'".rand(0,60)."\\\"";
+function genCoords()
+{
+    return rand(0, 180) . "°," . rand(0, 60) . "\\'" . rand(0, 60) . "\\\"";
 }
 
-function checkExists($connexion, $nomVariete,$nomPlante)
+function checkExists($connexion, $nomVariete, $nomPlante)
 {
-    $requete = "SELECT * FROM Dictionnaire WHERE id LIKE '" . sha1($nomVariete.$nomPlante) ."'";
+    $requete = "SELECT * FROM Dictionnaire WHERE id LIKE '" . sha1($nomVariete . $nomPlante) . "'";
     $res = mysqli_query($connexion, $requete);
-    if($res->num_rows > 0){
-	return true;
+    if ($res->num_rows > 0) {
+        return true;
     }
     return false;
 }
@@ -325,7 +326,9 @@ function addParcelle($connexion, $haut, $larg, $idJ)
 
     $res = mysqli_query($connexion, $requete);
 
-    return $res;
+    $coords['lat'] = $lat;
+    $coords['long'] = $long;
+    return $coords;
 }
 
 function getRangs($connexion, $lat, $long)
@@ -399,51 +402,86 @@ function getPlusVariétés($connexion)
     return $instances;
 }
 
-function executerequest($query,$link){
-    if($link->query($query) === false){
-	 print("error");
-	 print($link->error);
+function GetJardinNameWithID($connexion, $idJ)
+{
+    $requete = "SELECT nomJ FROM Jardins WHERE idJ = '$idJ'";
+    $res = mysqli_query($connexion, $requete);
+    $instances = mysqli_fetch_all($res, MYSQLI_ASSOC);
+    return $instances;
+}
+
+function addRang($connexion, $numero, $latR, $longR, $etat, $latP, $longP)
+{
+    $requete = "INSERT INTO Rangs(numéro, latitudeR, longitudeR, état, latitudeP, longitudeP) VALUES ('$numero', '$latR', '$longR', '$etat', '$latP', '$longP')";
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function addPlanteSauvageOnRang($connexion, $latR, $longR, $nomPS, $dateDebut, $dateFin = "NULL")
+{
+    $requete = "INSERT INTO Couvrir(latitudeR, longitudeR, nomPS, dateDebut, dateFin) VALUES ('$latR', '$longR', '$nomPS', '$dateDebut', $dateFin)";
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function addPlanteOnRang($connexion, $idV, $latR, $longR, $typeO)
+{
+    $requete = "INSERT INTO Occuper(idV, latitudeR, longitudeR, typeO) VALUES ('$idV', '$latR', '$longR', '$typeO')";
+    echo $requete . '<br>';
+    $res = mysqli_query($connexion, $requete);
+    return $res;
+}
+
+function executerequest($query, $link)
+{
+    if ($link->query($query) === false) {
+        print("error");
+        print($link->error);
     }
 }
 
-function set_lat_long($x,$length = 49){
-	$set = array(array());
-	for($i = 0; $i < $length; $i++){
-		for($j = $x; $j < $x+2; $j++){
-			$set[$i][$j] = genCoords();
-		}
-	}
-	return $set;
+function set_lat_long($x, $length = 49)
+{
+    $set = array(array());
+    for ($i = 0; $i < $length; $i++) {
+        for ($j = $x; $j < $x + 2; $j++) {
+            $set[$i][$j] = genCoords();
+        }
+    }
+    return $set;
 }
 
-function genRequestLoad($table,$fields_fill,$data){
-    global $result,$num_etu;
-    $query = "INSERT INTO ".$num_etu.".".$table." (";
-    for($i = 0; $i < count($fields_fill); $i++){
-	$query = $query."`".$fields_fill[$i]."`";
-	if($i < count($fields_fill)-1)
-	   $query = $query.",";
+function genRequestLoad($table, $fields_fill, $data)
+{
+    global $result, $num_etu;
+    $query = "INSERT INTO " . $num_etu . "." . $table . " (";
+    for ($i = 0; $i < count($fields_fill); $i++) {
+        $query = $query . "`" . $fields_fill[$i] . "`";
+        if ($i < count($fields_fill) - 1)
+            $query = $query . ",";
     }
-    $query = $query.") VALUES ";
-	for($i = 0; $i < count($data); $i++){
-		$query .= "(";
-		for($j = 0; $j < count($fields_fill); $j++){
-				if(strpbrk($data[$i][$j],"1234567890") !== false and
-		   		   strpbrk($data[$i][$j],"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz °") === false){
-				$query .= $data[$i][$j];
-		}else{
-			if(count($fields_fill) === 1){
-				$query .= "\"".$data[$i]."\"";
-			}else{
-				$query .= "\"".$data[$i][$j]."\"";
-			}
-		}
-		if($j < count($fields_fill)-1)
-			$query .= ",";
-		}
-		$query .= "),";
-	}
-    $query = substr($query,0,-1);
-	$query .= ";";
-    return($query);
+    $query = $query . ") VALUES ";
+    for ($i = 0; $i < count($data); $i++) {
+        $query .= "(";
+        for ($j = 0; $j < count($fields_fill); $j++) {
+            if (
+                strpbrk($data[$i][$j], "1234567890") !== false and
+                strpbrk($data[$i][$j], "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz °") === false
+            ) {
+                $query .= $data[$i][$j];
+            } else {
+                if (count($fields_fill) === 1) {
+                    $query .= "\"" . $data[$i] . "\"";
+                } else {
+                    $query .= "\"" . $data[$i][$j] . "\"";
+                }
+            }
+            if ($j < count($fields_fill) - 1)
+                $query .= ",";
+        }
+        $query .= "),";
+    }
+    $query = substr($query, 0, -1);
+    $query .= ";";
+    return ($query);
 }
