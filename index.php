@@ -1,6 +1,6 @@
 <?php
 // SIONI Farès - p1907037
-// MOKADEM Aziz
+// MOKADEM Aziz - p1804157
 // rsync -av -e ssh --exclude='*.git' bdw1-projet p1907037@bdw1.univ-lyon1.fr:/var/www/p1907037/  
 
 require_once 'statics/header.php';
