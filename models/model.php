@@ -428,7 +428,6 @@ function addPlanteSauvageOnRang($connexion, $latR, $longR, $nomPS, $dateDebut, $
 function addPlanteOnRang($connexion, $idV, $latR, $longR, $typeO)
 {
     $requete = "INSERT INTO Occuper(idV, latitudeR, longitudeR, typeO) VALUES ('$idV', '$latR', '$longR', '$typeO')";
-    echo $requete . '<br>';
     $res = mysqli_query($connexion, $requete);
     return $res;
 }
