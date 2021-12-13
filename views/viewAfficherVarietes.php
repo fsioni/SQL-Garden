@@ -27,8 +27,8 @@ if (isset($_POST["typeAffichage"])) {
         <thead class=\"thead-dark\">
             <tr>
                 <th scope=\"col\">idVariété</th>
-                <th scope=\"col\">Nom Plante (latin)</th>
                 <th scope=\"col\">Nom Variété</th>
+                <th scope=\"col\">Nom Plante (latin)</th>
                 <th scope=\"col\">Semenciers</th>
                 <th scope=\"col\">Adaptation aux Argileux</th>
                 <th scope=\"col\">Adaptation aux Limoneux</th>
@@ -51,8 +51,8 @@ if (isset($_POST["typeAffichage"])) {
 			while ($row = $varietes->fetch_array(MYSQLI_ASSOC)) {
 				print("<tr>");
 				print("    <th>" . $row['idV'] . "</th>");
-				print("    <th>" . $row['nomP'] . " (" . $row['nomLatinP'] . ") </th>");
 				print("<th>" . $row['codeVariété'] . "</th>");
+				print("    <th>" . $row['nomP'] . " (" . $row['nomLatinP'] . ") </th>");
 				print("<td>" . $row['nomSem'] . "</td>");
 				print("<td>" . $row['Argileux'] . "</td>");
 				print("<td>" . $row['Limoneux'] . "</td>");
